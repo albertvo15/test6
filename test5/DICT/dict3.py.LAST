@@ -1,0 +1,47 @@
+
+
+
+
+import re
+
+path = './web.log'
+
+regex = '([(\w\-\.)]+) - - \[(.*?)\] "(.*?)" (\d+) (\d*)'
+#regex = '([(\w\-\.)]+) - - \[(.*?)\] "(.*?)" (\d+) (\d+)'
+#regex = '([(\w\.)]+) - - \[(.*?)\] "(.*?)" (\d+) (\d+)'
+#regex = '([(\d\.)]+) - - \[(.*?)\] "(.*?)" (\d+) - "(.*?)" "(.*?)"'
+
+
+contents = []
+#f = open(path)
+with open("path") as f:
+for line in f:
+  contents = f.readlines()
+  ips = [l[1:-1].split('","') for l in contents]
+  sourceIps = {}
+  for ip in ips:
+    try:
+      sourceIps[ip[2]].append(ip)
+    except:
+      sourceIps[2]] = [ip]
+
+  for ip, stuff in sourceIps.iteritems():
+    print "From (0) ... ".format(ip, ...)
+
+#  print line
+  match =  re.match(regex, line)
+  hostname = match.group(1)
+  g2 = match.group(2)
+  g3 = match.group(3)
+  g4 = match.group(4)
+  g5 = match.group(5)
+  (shortdate,tz) = re.split(' ',g2)
+  print hostname + ' - ' + g5 + ' - ' + shortdate
+
+logdb = {'host':'10.10.10.10', 'hcount':1, 'lastaccess':'Sat Jan  2 00:42:59 PST 2016'}
+
+  
+#print logdb['host']
+#print logdb['hcount']
+#print logdb['lastaccess']
+
