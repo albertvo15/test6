@@ -1,11 +1,11 @@
 #!/usr/bin/python
 
 
-
 import re
 
 path = './web.log'
 
+#regex = '([(\w\_\-\.)]+) - - \[(.*?)\] "(.*?)" (\d+) (\d*)'
 regex = '([(\w\-\.)]+) - - \[(.*?)\] "(.*?)" (\d+) (\d*)'
 #regex = '([(\w\-\.)]+) - - \[(.*?)\] "(.*?)" (\d+) (\d+)'
 #regex = '([(\w\.)]+) - - \[(.*?)\] "(.*?)" (\d+) (\d+)'
@@ -14,6 +14,7 @@ regex = '([(\w\-\.)]+) - - \[(.*?)\] "(.*?)" (\d+) (\d*)'
 
 logdata = []
 #f = open(path)
+fo = open("OUTLOG", "w")
 with open(path) as f:
   logdata = f.readlines()
   f.close()
@@ -30,17 +31,27 @@ for entry in logdata:
   (shortdate,tz) = re.split(' ',g2)
   strshortdate = str(shortdate)
 
-  if host not in results:
-    results[[host]]['hcount'] = {'hcount':0} 
-    results[host]]['lastdate'] = {'lastdate':shortdate} 
-  else:
-    results[[host]]['hcount'] += 1
-    results[[host]]['lastdate'] = shortdate
+  if entry[0] not in results:
+   results[entry[0]] = {'mhost': host} 
+   results[entry[0]] = {'lastdate': strshortdate} 
+   results[entry[0]] = {'mcount': 0} 
+#   results[entry[0]] = {'lastdate':strshortdate} 
+
+  results[entry[0]]['mhost'] = host
+  results[entry[0]]['mcount'] += 1
+  results[entry[0]]['lastdate'] = shortdate
 
 
-for ip in results:
-  print ip
-  print results[ip]  
+for mhost in results:
+#  print ip
+#  print results[mhost]  
+#   print results[mhost]
+   ohost = results[mhost]['mhost']
+   ocount = str(results[mhost]['mcount'])
+   odate = results[mhost]['lastdate']
+   print ohost + ' - ' + ocount + ' - ' + odate
+#   fo.write( ohost + ' - ' + ocount + ' - ' + odate)
+
   
 #  results['host'] = host
 #  results['host'].count = strcount
@@ -63,4 +74,5 @@ for ip in results:
 #print logdb['host']
 #print logdb['hcount']
 #print logdb['lastaccess']
+
 
